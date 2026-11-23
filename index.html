@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#05070f">
+    <title>StudyTrack - Student Study Manager</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="app">
+
+    <!-- DESKTOP SIDEBAR (hidden on mobile) -->
+    <aside class="sidebar" aria-label="Sidebar">
+        <div class="brand">
+            <div class="brand-logo">📚</div>
+            <h2>Study<span>Track</span></h2>
+        </div>
+
+        <p class="side-heading">MENU</p>
+
+        <nav class="side-nav" aria-label="Pages">
+            <button class="nav-btn active" data-page="dashboard" type="button"><span class="side-icon">🏠</span>Dashboard</button>
+            <button class="nav-btn" data-page="tasks" type="button"><span class="side-icon">✅</span>My Tasks</button>
+            <button class="nav-btn" data-page="planner" type="button"><span class="side-icon">📅</span>Study Planner</button>
+            <button class="nav-btn" data-page="timer" type="button"><span class="side-icon">⏱️</span>Focus Timer</button>
+            <button class="nav-btn" data-page="subjects" type="button"><span class="side-icon">📖</span>Subjects</button>
+            <button class="nav-btn" data-page="progress" type="button"><span class="side-icon">📊</span>Progress Report</button>
+            <button class="nav-btn" data-page="achievements" type="button"><span class="side-icon">🏆</span>Achievements</button>
+            <button class="nav-btn" data-page="exams" type="button"><span class="side-icon">🎯</span>Exam Countdown</button>
+            <button class="nav-btn" data-page="notes" type="button"><span class="side-icon">📝</span>Personal Notes</button>
+            <button class="nav-btn" data-page="flashcards" type="button"><span class="side-icon">🃏</span>Flashcards</button>
+            <button class="nav-btn" data-page="backup" type="button"><span class="side-icon">💾</span>Backup &amp; Restore</button>
+        </nav>
+
+        <p class="side-foot">Stay focused. Keep growing. 🚀</p>
+    </aside>
+
+    <div class="app-body">
+
+    <!-- APP HEADER -->
+    <header class="app-header">
+        <div class="header-row">
+            <div class="brand">
+                <div class="brand-logo">📚</div>
+                <h2>Study<span>Track</span></h2>
+            </div>
+
+            <div class="header-actions">
+                <div class="pill pill-xp" title="Your XP">
+                    <span class="pill-icon">⭐</span>
+                    <span id="headerXP">0 XP</span>
+                </div>
+                <button id="themeToggle" class="icon-btn" type="button"
+                        aria-label="Switch theme">☀️</button>
+            </div>
+        </div>
+
+        <div class="header-row">
+            <div class="pill pill-streak" title="Study streak">
+                <span class="pill-icon">🔥</span>
+                <span id="headerStreak">0 days</span>
+            </div>
+
+            <button class="add-task-top" type="button" onclick="showPage('tasks')">
+                + Add Task
+            </button>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+
+        <div class="page-heading">
+            <h1 id="pageTitle">Dashboard</h1>
+            <p id="currentDate"></p>
+        </div>
+
+        <!-- DASHBOARD -->
+        <section id="dashboard" class="page active">
+
+            <div class="welcome-panel">
+                <button class="welcome-edit" onclick="editProfile()" type="button"
+                        aria-label="Edit profile">✏️</button>
+
+                <p class="welcome-label"><span class="dash"></span> WELCOME TO STUDYTRACK</p>
+                <h2 id="welcomeMessage">Hello, Student!</h2>
+                <p class="welcome-sub">Ready to make today productive?</p>
+
+                <div class="hero-tiles">
+                    <div class="hero-tile">
+                        <p>Today</p>
+                        <h3><span id="heroToday">0</span> <small>tasks</small></h3>
+                    </div>
+                    <div class="hero-tile">
+                        <p>This week</p>
+                        <h3><span id="heroWeek">0</span> <small>done</small></h3>
+                    </div>
+                    <div class="hero-tile hero-wide">
+                        <p>Top subject</p>
+                        <h3 id="heroTopSubject">—</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="quote-card">
+                <span class="quote-mark">“</span>
+                <div>
+                    <p class="quote-label">THOUGHT FOR TODAY</p>
+                    <p id="dailyQuote" class="quote-text"></p>
+                </div>
+            </div>
+
+            <h3 class="section-label">Quick actions</h3>
+
+            <div class="quick-grid">
+                <button class="quick-card" type="button" onclick="showPage('tasks')">
+                    <span class="quick-icon">＋</span>
+                    <strong>Add Task</strong>
+                    <small>Plan your study work</small>
+                    <span class="quick-arrow">→</span>
+                </button>
+
+                <button class="quick-card" type="button" onclick="showPage('timer')">
+                    <span class="quick-icon">⏱️</span>
+                    <strong>Focus Timer</strong>
+                    <small>Pomodoro sessions</small>
+                    <span class="quick-arrow">→</span>
+                </button>
+
+                <button class="quick-card" type="button" onclick="showPage('planner')">
+                    <span class="quick-icon">📅</span>
+                    <strong>Study Planner</strong>
+                    <small>See any day's plan</small>
+                    <span class="quick-arrow">→</span>
+                </button>
+
+                <button class="quick-card" type="button" onclick="showPage('exams')">
+                    <span class="quick-icon">🎯</span>
+                    <strong>Exam Countdown</strong>
+                    <small>Days left to prepare</small>
+                    <span class="quick-arrow">→</span>
+                </button>
+            </div>
+
+            <div class="stats">
+                <div class="card stat-card">
+                    <div class="stat-icon">📚</div>
+                    <h3>Total Tasks</h3>
+                    <h2 id="totalTasks">0</h2>
+                </div>
+
+                <div class="card stat-card">
+                    <div class="stat-icon">✅</div>
+                    <h3>Completed</h3>
+                    <h2 id="completedTasks">0</h2>
+                </div>
+
+                <div class="card stat-card">
+                    <div class="stat-icon">⏳</div>
+                    <h3>Pending</h3>
+                    <h2 id="pendingTasks">0</h2>
+                </div>
+
+                <div class="card stat-card">
+                    <div class="stat-icon">⏱️</div>
+                    <h3>Study Time</h3>
+                    <h2 id="trackedStudyTime">0m</h2>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="section-heading">
+                    <div>
+                        <h2>🎯 Daily Study Goal</h2>
+                        <p id="goalText">0 of 120 min studied today</p>
+                    </div>
+                    <strong id="goalPercent">0%</strong>
+                </div>
+
+                <div class="progress-bar">
+                    <div id="goalFill"></div>
+                </div>
+
+                <div class="goal-row">
+                    <input type="number" id="goalInput" min="5" max="1440"
+                           step="5" aria-label="Daily goal in minutes">
+                    <button type="button" id="goalSave" class="secondary">
+                        Set goal (min)
+                    </button>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="section-heading">
+                    <div>
+                        <h2>Daily Progress</h2>
+                        <p>Track your task completion.</p>
+                    </div>
+                    <strong id="progressPercentage">0%</strong>
+                </div>
+
+                <div class="progress-bar">
+                    <div id="progressFill"></div>
+                </div>
+
+                <p id="progressText">Complete your tasks to make progress!</p>
+            </div>
+
+            <div class="panel">
+                <h2>🔥 Study Streak</h2>
+
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h3>Current Streak</h3>
+                        <h2 id="dashboardStreak">0</h2>
+                        <p>Consecutive active days</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <h3>Best Streak</h3>
+                        <h2 id="dashboardBestStreak">0 days</h2>
+                        <p>Your personal record</p>
+                    </div>
+                </div>
+
+                <p id="dashboardStreakMessage" class="streak-message">
+                    Start studying to build your streak!
+                </p>
+            </div>
+
+            <div class="panel">
+                <h2>⭐ Your Experience Points</h2>
+
+                <div class="feature-card">
+                    <h2 id="dashboardXP">0 XP</h2>
+                    <p id="levelName" class="level-name">Level 1 · Beginner</p>
+                    <div class="progress-bar small">
+                        <div id="levelFill"></div>
+                    </div>
+                    <p id="levelText">50 XP to reach the next level</p>
+                    <p>Complete tasks to earn XP and unlock badges!</p>
+                    <p>Unlocked badges: <strong id="dashboardBadgeCount">0</strong></p>
+                </div>
+
+                <button class="link-row" type="button" onclick="showPage('achievements')">
+                    <span>🏆 Achievements &amp; badges</span> <span>→</span>
+                </button>
+            </div>
+
+            <div class="panel">
+                <div class="panel-heading">
+                    <div>
+                        <h2>Today's Tasks</h2>
+                        <p>Your tasks scheduled for today.</p>
+                    </div>
+
+                    <button class="secondary" onclick="showPage('tasks')" type="button">
+                        View all →
+                    </button>
+                </div>
+
+                <div id="todayTasks"></div>
+            </div>
+
+            <div class="panel">
+                <h2>🔔 Reminders</h2>
+                <div id="reminders"></div>
+            </div>
+
+        </section>
+
+
+        <!-- TASKS -->
+        <section id="tasks" class="page">
+
+            <div class="panel">
+                <h2>➕ Add New Task</h2>
+
+                <form id="taskForm">
+                    <input type="hidden" id="editId">
+
+                    <label for="taskName">Task Name</label>
+                    <input type="text" id="taskName"
+                           placeholder="Enter your task" required>
+
+                    <label for="taskSubject">Subject</label>
+                    <select id="taskSubject" required>
+                        <option value="">Select Subject</option>
+                    </select>
+
+                    <label for="taskDate">Due Date</label>
+                    <input type="date" id="taskDate" required>
+
+                    <label for="taskPriority">Priority</label>
+                    <select id="taskPriority">
+                        <option value="Low">Low</option>
+                        <option value="Medium" selected>Medium</option>
+                        <option value="High">High</option>
+                    </select>
+
+                    <div class="form-buttons">
+                        <button type="submit" id="submitTask">+ Add Task</button>
+                        <button type="button" id="cancelEdit" class="secondary hidden">
+                            Cancel
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="panel">
+                <div class="section-heading">
+                    <div>
+                        <h2>All Tasks</h2>
+                        <p>Manage your study activities.</p>
+                    </div>
+                </div>
+
+                <div class="task-tools">
+                    <input type="text" id="taskSearch" placeholder="Search tasks...">
+
+                    <select id="taskFilter">
+                        <option value="all">All Tasks</option>
+                        <option value="pending">Pending</option>
+                        <option value="completed">Completed</option>
+                    </select>
+                </div>
+
+                <div id="allTasks"></div>
+            </div>
+
+        </section>
+
+
+        <!-- PLANNER -->
+        <section id="planner" class="page">
+            <div class="panel">
+                <h2>📅 Study Planner</h2>
+                <p class="panel-description">Select a date to see your planned tasks.</p>
+
+                <label for="plannerDate">Choose Date</label>
+                <input type="date" id="plannerDate">
+
+                <div id="plannerTasks"></div>
+            </div>
+        </section>
+
+
+        <!-- TIMER -->
+        <section id="timer" class="page">
+            <div class="panel timer-panel">
+                <div class="timer-icon">⏱️</div>
+                <h2>Pomodoro Focus Timer</h2>
+
+                <p id="timerMessage">Time to focus on your studies!</p>
+
+                <div id="timerDisplay">25:00</div>
+
+                <div class="timer-buttons">
+                    <button type="button" onclick="startTimer()">▶ Start</button>
+                    <button type="button" class="secondary" onclick="pauseTimer()">⏸ Pause</button>
+                    <button type="button" class="secondary" onclick="resetTimer()">↻ Reset</button>
+                </div>
+
+                <div class="timer-presets">
+                    <p>Choose your session</p>
+                    <button type="button" class="secondary" onclick="setTimer(25)">25 Min Focus</button>
+                    <button type="button" class="secondary" onclick="setTimer(5)">5 Min Break</button>
+                    <button type="button" class="secondary" onclick="setTimer(15)">15 Min Break</button>
+                </div>
+
+                <div class="tracked-time">
+                    <h3>📊 Total Study Time</h3>
+                    <h2 id="timerTotal">0m</h2>
+                </div>
+
+                <button type="button" id="focusModeButton" class="secondary">
+                    🎯 Enter Focus Mode
+                </button>
+            </div>
+        </section>
+
+
+        <!-- SUBJECTS -->
+        <section id="subjects" class="page">
+
+            <div class="panel">
+                <h2>📖 Add Subject</h2>
+
+                <form id="subjectForm">
+                    <label for="subjectName">Subject Name</label>
+                    <input type="text" id="subjectName"
+                           placeholder="e.g. Mathematics" required>
+
+                    <button type="submit">+ Add Subject</button>
+                </form>
+            </div>
+
+            <div class="panel">
+                <h2>Your Subjects</h2>
+                <div id="subjectList"></div>
+            </div>
+
+        </section>
+
+
+        <!-- PROGRESS REPORT -->
+        <section id="progress" class="page">
+
+            <div class="section-heading">
+                <div>
+                    <h2>📊 Your Study Report</h2>
+                    <p>See how your studies are progressing.</p>
+                </div>
+            </div>
+
+            <div class="stats">
+                <div class="card stat-card">
+                    <h3>Total Tasks</h3>
+                    <h2 id="reportTotalTasks">0</h2>
+                </div>
+
+                <div class="card stat-card">
+                    <h3>Completed Tasks</h3>
+                    <h2 id="reportCompletedTasks">0</h2>
+                </div>
+
+                <div class="card stat-card">
+                    <h3>Study Time</h3>
+                    <h2 id="reportTime">0m</h2>
+                </div>
+
+                <div class="card stat-card">
+                    <h3>Completion</h3>
+                    <h2 id="reportPercentage">0%</h2>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="section-heading">
+                    <div>
+                        <h2>📅 This Week</h2>
+                        <p>Minutes studied in the last 7 days.</p>
+                    </div>
+                    <strong id="weekTotal">0m</strong>
+                </div>
+
+                <div id="weeklyChart" class="week-chart"></div>
+            </div>
+
+            <div class="panel">
+                <h2>📈 Subject Progress</h2>
+                <div id="subjectChart"></div>
+            </div>
+
+        </section>
+
+
+        <!-- ACHIEVEMENTS -->
+        <section id="achievements" class="page">
+
+            <div class="section-heading">
+                <div>
+                    <h2>🏆 Your Achievements</h2>
+                    <p>Keep learning and unlock rewards!</p>
+                </div>
+            </div>
+
+            <div class="stats three">
+                <div class="card stat-card">
+                    <div class="stat-icon">⭐</div>
+                    <h3>Total XP</h3>
+                    <h2 id="achievementXP">0</h2>
+                </div>
+
+                <div class="card stat-card">
+                    <div class="stat-icon">🔥</div>
+                    <h3>Current Streak</h3>
+                    <h2 id="achievementStreak">0</h2>
+                </div>
+
+                <div class="card stat-card">
+                    <div class="stat-icon">🏅</div>
+                    <h3>Badges</h3>
+                    <h2 id="achievementBadgeCount">0</h2>
+                </div>
+            </div>
+
+            <div class="panel">
+                <h2>🔥 Study Streak</h2>
+                <p id="achievementStreakMessage">
+                    Start studying to build your streak!
+                </p>
+
+                <p class="best-streak">
+                    Best streak: <strong id="achievementBestStreak">0 days</strong>
+                </p>
+            </div>
+
+            <div class="panel">
+                <h2>🏅 Your Badges</h2>
+                <div id="badgeList" class="feature-grid"></div>
+            </div>
+
+        </section>
+
+
+        <!-- EXAMS -->
+        <section id="exams" class="page">
+
+            <div class="panel">
+                <h2>🎯 Exam Countdown</h2>
+                <p class="panel-description">
+                    Add your upcoming exams and track the remaining days.
+                </p>
+
+                <form id="examForm">
+                    <label for="examName">Exam Name</label>
+                    <input type="text" id="examName"
+                           placeholder="e.g. Mathematics Final Exam" required>
+
+                    <label for="examDate">Exam Date</label>
+                    <input type="date" id="examDate" required>
+
+                    <button type="submit">+ Add Exam</button>
+                </form>
+            </div>
+
+            <div class="panel">
+                <h2>📅 Upcoming Exams</h2>
+                <div id="examList"></div>
+            </div>
+
+        </section>
+
+
+        <!-- NOTES -->
+        <section id="notes" class="page">
+
+            <div class="panel">
+                <h2>📝 Personal Notes</h2>
+                <p class="panel-description">
+                    Save important study notes and reminders.
+                </p>
+
+                <form id="noteForm">
+                    <label for="noteTitle">Note Title</label>
+                    <input type="text" id="noteTitle"
+                           placeholder="e.g. Physics Chapter 2" required>
+
+                    <label for="noteContent">Your Notes</label>
+                    <textarea id="noteContent" rows="5"
+                              placeholder="Write your notes here..." required></textarea>
+
+                    <button type="submit" id="saveNoteButton">+ Save Note</button>
+
+                    <button type="button" id="cancelNoteEdit"
+                            class="secondary hidden">
+                        Cancel Edit
+                    </button>
+                </form>
+            </div>
+
+            <div class="panel">
+                <h2>📚 Saved Notes</h2>
+                <div id="notesList"></div>
+            </div>
+
+        </section>
+
+
+        <!-- FLASHCARDS -->
+        <section id="flashcards" class="page">
+
+            <div class="panel">
+                <h2>🃏 Flashcards</h2>
+                <p class="panel-description">
+                    Make question and answer cards. Tap a card to flip it.
+                </p>
+
+                <form id="flashcardForm">
+                    <label for="fcQuestion">Question</label>
+                    <input type="text" id="fcQuestion"
+                           placeholder="e.g. What is the powerhouse of the cell?" required>
+
+                    <label for="fcAnswer">Answer</label>
+                    <textarea id="fcAnswer" rows="3"
+                              placeholder="Write the answer..." required></textarea>
+
+                    <button type="submit">+ Add Flashcard</button>
+                </form>
+            </div>
+
+            <div class="panel">
+                <div class="panel-heading">
+                    <div>
+                        <h2>Your Cards</h2>
+                        <p id="fcSummary">No cards yet.</p>
+                    </div>
+                </div>
+
+                <div id="flashcardList"></div>
+            </div>
+
+        </section>
+
+
+        <!-- BACKUP -->
+        <section id="backup" class="page">
+
+            <div class="panel">
+                <h2>💾 Backup &amp; Restore</h2>
+                <p class="panel-description">
+                    Your data is saved only in this browser. Download a backup
+                    so you never lose it, and restore it on any device.
+                </p>
+
+                <div class="form-buttons backup-buttons">
+                    <button type="button" id="exportBtn">⬇ Download Backup</button>
+
+                    <label class="file-btn" for="importFile">⬆ Restore Backup</label>
+                    <input type="file" id="importFile"
+                           accept="application/json,.json" class="hidden">
+                </div>
+            </div>
+
+        </section>
+
+
+        <footer>
+            <p>Made with ❤️ for students | StudyTrack © 2026</p>
+        </footer>
+
+    </main>
+
+    </div><!-- end app-body -->
+
+    <!-- BOTTOM NAVIGATION (mobile only) -->
+    <nav class="bottom-nav" aria-label="Main">
+        <button class="nav-btn active" data-page="dashboard" type="button">
+            <span class="nav-icon">🏠</span><span class="nav-text">Home</span>
+        </button>
+        <button class="nav-btn" data-page="tasks" type="button">
+            <span class="nav-icon">✅</span><span class="nav-text">Tasks</span>
+        </button>
+        <button class="nav-btn" data-page="timer" type="button">
+            <span class="nav-icon">⏱️</span><span class="nav-text">Timer</span>
+        </button>
+        <button class="nav-btn" data-page="progress" type="button">
+            <span class="nav-icon">📊</span><span class="nav-text">Progress</span>
+        </button>
+        <button class="more-btn" id="moreBtn" type="button">
+            <span class="nav-icon">⋯</span><span class="nav-text">More</span>
+        </button>
+    </nav>
+
+    <!-- MORE SHEET -->
+    <div id="moreSheet" class="sheet-overlay">
+        <div class="sheet">
+            <div class="sheet-handle"></div>
+            <h3>More</h3>
+
+            <div class="sheet-grid">
+                <button class="nav-btn sheet-item" data-page="planner" type="button">
+                    <span class="nav-icon">📅</span><span>Study Planner</span>
+                </button>
+                <button class="nav-btn sheet-item" data-page="subjects" type="button">
+                    <span class="nav-icon">📖</span><span>Subjects</span>
+                </button>
+                <button class="nav-btn sheet-item" data-page="achievements" type="button">
+                    <span class="nav-icon">🏆</span><span>Achievements</span>
+                </button>
+                <button class="nav-btn sheet-item" data-page="exams" type="button">
+                    <span class="nav-icon">🎯</span><span>Exam Countdown</span>
+                </button>
+                <button class="nav-btn sheet-item" data-page="notes" type="button">
+                    <span class="nav-icon">📝</span><span>Personal Notes</span>
+                </button>
+                <button class="nav-btn sheet-item" data-page="flashcards" type="button">
+                    <span class="nav-icon">🃏</span><span>Flashcards</span>
+                </button>
+                <button class="nav-btn sheet-item" data-page="backup" type="button">
+                    <span class="nav-icon">💾</span><span>Backup &amp; Restore</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<!-- PROFILE MODAL -->
+<div id="profileModal" class="profile-overlay">
+    <div class="profile-modal">
+        <div class="profile-icon">📚</div>
+        <p class="profile-tag">YOUR STUDY JOURNEY</p>
+        <h2 id="profileTitle">Welcome to StudyTrack!</h2>
+        <p class="profile-description">
+            What should we call you? Enter your name to personalise your dashboard.
+        </p>
+
+        <form id="profileForm">
+            <label for="studentNameInput">Your Name</label>
+            <input type="text" id="studentNameInput"
+                   placeholder="Enter your name" maxlength="40" required>
+
+            <button type="submit" class="profile-submit">
+                Get Started →
+            </button>
+        </form>
+
+        <p class="profile-footer">Your study journey starts here.</p>
+    </div>
+</div>
+
+
+<!-- TOAST -->
+<div id="toast" class="toast"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
